@@ -20,3 +20,7 @@ Route::get('/', function () {
 Route::get('/home', function () {
     return view('home');
 })->middleware(['auth', 'verified']);
+
+Route::get('/settings', function () {
+    return view('auth.settings');
+});

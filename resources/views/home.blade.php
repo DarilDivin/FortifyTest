@@ -46,53 +46,50 @@
         </div>
     </nav>
 
-    <div class="connexion-message">
+    {{-- <div class="connexion-message"> --}}
 
-            @if (! auth()->user()->two_factor_secret)
-                <div class="twofa-message error">
-                    <h3>
-                        Vous n'avez pas activé la double authentification
-                    </h3>
-                    <form action="{{ url('user/two-factor-authentication') }}" method="POST">
-                        @csrf
-                        <button type="submit"
-                                style="background: #31dc01;
-                                       color: #fff;
-                                       border: none;
-                                       border-radius: 8px;
-                                       padding: 10px 20px;
-                                       cursor: pointer;
-                                       font-weight: bold;">
-                            Enable
-                        </button>
-                    </form>
-                </div>
-            @else
-                <div class="twofa-message success">
-                    <h3>
-                        Vous avez activé la double authentification
-                    </h3>
-                    <form action="{{ url('user/two-factor-authentication') }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit"
-                                style="background: #ff0000;
-                                       color: #fff;
-                                       border: none;
-                                       border-radius: 8px;
-                                       padding: 10px 20px;
-                                       cursor: pointer;
-                                       font-weight: bold;">
-                            Disable
-                        </button>
-                    </form>
-                </div>
-            @endif
+        {{-- @if (! auth()->user()->two_factor_secret)
+            <div class="twofa-message error">
+                <h3>
+                    Vous n'avez pas activé la double authentification
+                </h3>
+                <form action="{{ url('user/two-factor-authentication') }}" method="POST">
+                    @csrf
+                    <button type="submit"
+                            style="background: #31dc01;
+                                    color: #fff;
+                                    border: none;
+                                    border-radius: 8px;
+                                    padding: 10px 20px;
+                                    cursor: pointer;
+                                    font-weight: bold;">
+                        Enable
+                    </button>
+                </form>
+            </div>
+        @else
+            <div class="twofa-message success">
+                <h3>
+                    Vous avez activé la double authentification
+                </h3>
+                <form action="{{ url('user/two-factor-authentication') }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit"
+                            style="background: #ff0000;
+                                    color: #fff;
+                                    border: none;
+                                    border-radius: 8px;
+                                    padding: 10px 20px;
+                                    cursor: pointer;
+                                    font-weight: bold;">
+                        Disable
+                    </button>
+                </form>
+            </div>
+        @endif --}}
 
-
-
-
-        @if (session('status') == 'two-factor-authentication-enabled')
+        {{-- @if (session('status') == 'two-factor-authentication-enabled')
             <div class="recovery-container">
                 <p>Scanner le code Qr pour terminer la configuration de la double authentification</p>
 
@@ -100,15 +97,28 @@
                     {{!! auth()->user()->twoFactorQrCodeSvg() !!}}
                 </div>
 
-                <p>Conserver ces codes de récupérations au cas où.</p> <br>
-                <ul>
-                    @foreach (json_decode(decrypt(auth()->user()->two_factor_recovery_codes, true)) as $code)
-                        <li>{{ trim($code) }}</li>
-                    @endforeach
-                </ul>
+                <form action="{{ url('user/confirmed-two-factor-authentication') }}" method="POST">
+                    @csrf
+                    <input type="text" name="code">
+                    <button type="submit">Confirmer</button>
+                </form>
             </div>
         @endif
-    </div>
+
+        @if (session('status') == 'two-factor-authentication-confirmed')
+            <div class="mb-4 font-medium text-sm">
+                Two factor authentication confirmed and enabled successfully.
+            </div>
+
+            <p>Conserver ces codes de récupérations au cas où.</p> <br>
+            <ul> --}}
+                {{-- {{ (array) $request->user()->recoveryCodes() }} --}}
+                {{-- @foreach (json_decode(decrypt(auth()->user()->two_factor_recovery_codes, true)) as $code)
+                    <li>{{ trim($code) }}</li>
+                @endforeach
+            </ul>
+        @endif
+    </div> --}}
 
 
 
